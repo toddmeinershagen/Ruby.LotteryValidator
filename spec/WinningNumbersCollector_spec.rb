@@ -2,12 +2,14 @@ require File.join(File.dirname(__FILE__), '..', 'WinningNumbersCollector')
 
 describe WinningNumbersCollector do
 
-  describe "given non-existing lottery date" do
+  describe 'given non-existing lottery date' do
     collector = WinningNumbersCollector.new
-    nonexistingLotteryDate = Date.new(2014, 07, 13)
+    nonexisting_lottery_date = Date.new(2014, 07, 13)
 
-    it "raises runtime error given non-existing lottery date" do
-      expect {result = collector.collect(nonexistingLotteryDate)}.to raise_error("#{nonexistingLotteryDate} is a non-existing lottery date.")
+    it 'raises runtime error given non-existing lottery date' do
+      expected_message = "#{nonexisting_lottery_date} is a non-existing lottery date."
+      expect { collector.collect(nonexisting_lottery_date) }
+        .to raise_error(expected_message)
     end
   end
 
