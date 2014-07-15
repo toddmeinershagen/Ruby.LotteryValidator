@@ -16,10 +16,18 @@ describe WinningNumbersCollector do
   describe 'given existing lottery date' do
     collector = WinningNumbersCollector.new
     existing_lottery_date = Date.new(2014, 07, 11)
+    result = collector.collect(existing_lottery_date)
 
+    it 'returns winning date' do
+      expect(result.date).to eq(existing_lottery_date)
+    end
+    
     it 'returns winning mega ball' do
-      result = collector.collect(existing_lottery_date)
       expect(result.mega_ball).to eq('10')
+    end
+
+    it 'returns winning numbers' do
+      expect(result.numbers).to contain_exactly('9', '13', '30', '35', '69')
     end
   end
 end
