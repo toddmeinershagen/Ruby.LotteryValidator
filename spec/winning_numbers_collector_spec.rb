@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'WinningNumbersCollector')
+require File.join(File.dirname(__FILE__), '..', 'winning_numbers_collector')
 
 describe WinningNumbersCollector do
 
@@ -21,7 +21,7 @@ describe WinningNumbersCollector do
     it 'returns winning date' do
       expect(result.date).to eq(existing_lottery_date)
     end
-    
+
     it 'returns winning mega ball' do
       expect(result.mega_ball).to eq('10')
     end
