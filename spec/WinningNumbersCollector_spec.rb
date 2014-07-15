@@ -19,7 +19,7 @@ describe WinningNumbersCollector do
 
     it 'returns winning mega ball' do
       result = collector.collect(existing_lottery_date)
-      expect(result.mega_ball).to eq("10")
+      expect(result.mega_ball).to eq('10')
     end
   end
 end
