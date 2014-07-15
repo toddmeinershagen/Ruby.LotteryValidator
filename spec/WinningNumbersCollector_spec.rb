@@ -13,16 +13,13 @@ describe WinningNumbersCollector do
     end
   end
 
-=begin
-  describe "given existing lottery date" do
+  describe 'given existing lottery date' do
     collector = WinningNumbersCollector.new
-    existingLotteryDate = Date.new(2014, 07, 11)
+    existing_lottery_date = Date.new(2014, 07, 11)
 
-    it "returns winning mega ball" do
-      result = collector.collect(existingLotteryDate)
-      expect(result.mega_ball).to eq(10)
+    it 'returns winning mega ball' do
+      result = collector.collect(existing_lottery_date)
+      expect(result.mega_ball).to eq("10")
     end
   end
-=end
-
 end

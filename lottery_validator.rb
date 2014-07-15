@@ -1,5 +1,5 @@
 class LotteryValidator
-  def validate(lotteryDate)
+  def validate(lottery_date)
     true
   end
 end

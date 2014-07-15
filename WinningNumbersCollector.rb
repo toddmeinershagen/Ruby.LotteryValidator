@@ -1,4 +1,5 @@
-require "selenium-webdriver"
+require 'selenium-webdriver'
+require 'Date'
 
 class WinningNumbersCollector
 
@@ -12,36 +13,47 @@ class WinningNumbersCollector
   #  @driver = driver
   #end
 
-  def collect(lotteryDate)
+  def collect(lottery_date)
 
-    month = lotteryDate.mon
-    year = lotteryDate.year
-    startDate = Date.new(year, month, 1)
-    endDate = Date.new(year, month, 31)
-
-    #profile = Selenium::WebDriver::Firefox::Profile.new
-    #profile['eneral.useragent.override'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:30.0) Gecko/20100101 Firefox/30.0'
-    #driver = Selenium::WebDriver.for :firefox, :profile => profile
-
-    #driver = Selenium::WebDriver.for :firefox
-    #driver.navigate.to "http://www.murl.mobi/headers.php"
+    month = lottery_date.mon
+    year = lottery_date.year
+    start_date = Date.new(year, month, 1)
+    end_date = Date.new(year, month, 31)
 
     @driver = Selenium::WebDriver.for :firefox
-    @driver.navigate.to "http://www.megamillions.com/winning-numbers/search?startDate=#{startDate.strftime("%-m/%-d/%Y")}&endDate=#{endDate.strftime("%-m/%-d/%Y")}"
+    @driver.navigate.to "http://www.megamillions.com/winning-numbers/search?startDate=#{start_date.strftime('%-m/%-d/%Y')}&endDate=#{end_date.strftime('%-m/%-d/%Y')}"
 
     table = @driver.find_element(:class, 'winning-numbers-table')
     tbody = table.find_element(:tag_name, 'tbody')
     rows = tbody.find_elements(:tag_name, 'tr')
-    rows.each { |row| handle row }
+
+    drawings = Hash.new
+    rows.each do |row|
+      drawing = get_drawing row
+      drawings[drawing.date] = drawing
+    end
 
     @driver.quit
 
-    raise "#{lotteryDate} is a non-existing lottery date."
+    selected_drawing = drawings[lottery_date]
+
+    if selected_drawing.nil?
+      fail "#{lottery_date} is a non-existing lottery date."
+    end
+
+    selected_drawing
+
   end
 
-  def handle(row)
+  def get_drawing(row)
     columns = row.find_elements(:tag_name, 'td')
-    puts columns[0].text
+    date = Date.strptime(columns[0].text, '%m/%d/%Y')
+    numbers = [columns[1].text, columns[2].text, columns[3].text, columns[4].text, columns[5].text]
+    mega_ball = columns[6].text
+
+    Drawing.new(date, numbers, mega_ball)
   end
+
+  Drawing = Struct.new(:date, :numbers, :mega_ball)
 
 end

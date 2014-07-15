@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'LotteryValidator')
+require File.join(File.dirname(__FILE__), '..', 'lottery_validator')
 
 describe LotteryValidator do
   describe 'Validation' do
