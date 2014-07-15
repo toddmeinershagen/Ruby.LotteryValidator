@@ -3,15 +3,15 @@ require 'Date'
 
 class WinningNumbersCollector
 
-  #def self.build()
-  #    new(Selenium::WebDriver.for :firefox)
-  #end
+  # def self.build()
+  #   new(Selenium::WebDriver.for :firefox)
+  # end
 
-  #attr_reader :driver
+  # attr_reader :driver
 
-  #def initialize(driver)
-  #  @driver = driver
-  #end
+  # def initialize(driver)
+  #   @driver = driver
+  # end
 
   def collect(lottery_date)
 
@@ -69,5 +69,7 @@ class WinningNumbersCollector
   end
 
   Drawing = Struct.new(:date, :numbers, :mega_ball)
+
+  private :get_url_for, :get_rows_with, :drawify, :get_drawing
 
 end
