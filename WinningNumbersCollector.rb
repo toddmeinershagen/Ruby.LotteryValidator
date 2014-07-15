@@ -15,23 +15,12 @@ class WinningNumbersCollector
 
   def collect(lottery_date)
 
-    month = lottery_date.mon
-    year = lottery_date.year
-    start_date = Date.new(year, month, 1)
-    end_date = Date.new(year, month, 31)
-
     @driver = Selenium::WebDriver.for :firefox
-    @driver.navigate.to "http://www.megamillions.com/winning-numbers/search?startDate=#{start_date.strftime('%-m/%-d/%Y')}&endDate=#{end_date.strftime('%-m/%-d/%Y')}"
+    @driver.navigate.to get_url_for lottery_date
 
-    table = @driver.find_element(:class, 'winning-numbers-table')
-    tbody = table.find_element(:tag_name, 'tbody')
-    rows = tbody.find_elements(:tag_name, 'tr')
+    rows = get_rows_with @driver
 
-    drawings = Hash.new
-    rows.each do |row|
-      drawing = get_drawing row
-      drawings[drawing.date] = drawing
-    end
+    drawings = drawify rows
 
     @driver.quit
 
@@ -43,6 +32,31 @@ class WinningNumbersCollector
 
     selected_drawing
 
+  end
+
+  def get_url_for(lottery_date)
+    month = lottery_date.mon
+    year = lottery_date.year
+    start_date = Date.new(year, month, 1)
+    end_date = Date.new(year, month, 31)
+
+    "http://www.megamillions.com/winning-numbers/search?startDate=#{start_date.strftime('%-m/%-d/%Y')}&endDate=#{end_date.strftime('%-m/%-d/%Y')}"
+  end
+
+  def get_rows_with(driver)
+    table = @driver.find_element(:class, 'winning-numbers-table')
+    tbody = table.find_element(:tag_name, 'tbody')
+    tbody.find_elements(:tag_name, 'tr')
+  end
+
+  def drawify(rows)
+    drawings = Hash.new
+    rows.each do |row|
+      drawing = get_drawing row
+      drawings[drawing.date] = drawing
+    end
+
+    drawings
   end
 
   def get_drawing(row)
