@@ -15,7 +15,12 @@ class WinningNumbersCollector
 
   def collect(lottery_date)
 
-    @driver = Selenium::WebDriver.for :firefox
+    io  = IO.popen('phantomjs --wd=8910')
+    pid = io.pid
+    sleep 1
+
+    # @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for(:remote, url: 'http://localhost:8910')
     @driver.navigate.to get_url_for lottery_date
 
     rows = get_rows_with @driver
@@ -25,6 +30,10 @@ class WinningNumbersCollector
     @driver.quit
 
     selected_drawing = drawings[lottery_date]
+
+    Process.kill 'INT', pid
+    sleep 1
+    io.close
 
     if selected_drawing.nil?
       fail "#{lottery_date} is a non-existing lottery date."

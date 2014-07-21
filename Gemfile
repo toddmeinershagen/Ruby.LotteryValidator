@@ -1,10 +1,12 @@
 # A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # gem "rails"
-gem "rake"
-gem "rspec"
-gem "selenium-webdriver"
+gem 'rake'
+gem 'rspec'
+gem 'selenium-webdriver'
+gem 'selenium-phantomjs'
+
 
 =begin
 Fetching gem metadata from https://rubygems.org/............

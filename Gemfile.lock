@@ -20,6 +20,8 @@ GEM
       rspec-support (~> 3.0.0)
     rspec-support (3.0.2)
     rubyzip (1.1.6)
+    selenium-phantomjs (0.0.3)
+      selenium-webdriver
     selenium-webdriver (2.42.0)
       childprocess (>= 0.5.0)
       multi_json (~> 1.0)
@@ -33,4 +35,5 @@ PLATFORMS
 DEPENDENCIES
   rake
   rspec
+  selenium-phantomjs
   selenium-webdriver
